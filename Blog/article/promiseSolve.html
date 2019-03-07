@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise Solve</title>
+    <link rel="icon" href="../picture/icon.ico">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="articleStyle.css">
+</head>
+<body>
+<header>
+    <h1 class="Top">TYX</h1>
+    <div class="header_link">
+        <ul>
+            <li><a href="../blog.html">首页</a></li>
+            <li><a href="#connect">联系</a></li>
+            <li><a href="https://developer.mozilla.org/en-US//">订阅</a></li>
+        </ul>
+    </div>
+</header>
+<div class="body">
+    <main>
+
+        <div class="article_title">
+            <h3>Promise问题初步详解</h3>
+            <div class="information">
+                <p class="information">posted @ 2019-03-05 07:44 Tyx-muyu  阅读（1） 评论（1）
+                </p>
+            </div>
+        </div>
+        <div class="article_main">
+            <h4>一、何为Promise？</h4>
+            <p>为了直观一点，首先我们采用console.dir(Promise)看一下它的结构组成。
+            </p>
+            <img src="../picture/a1-1.png">
+            <p>从上面的图片中我们可以到，Promise其实是一个构造函数，它有resolve，reject，race等静态方法;
+                它的原型（prototype）上有then，catch方法，因此只要作为Promise的实例，
+                都可以共享并调用Promise.prototype上面的方法(then,catch),接下来我们试着使用一下Promise。
+            </p>
+
+            <h4>二、Promise的使用</h4>
+            <p>
+                首先我们来看一下Promise的使用语法：
+            </p>
+            <div class="copy">
+                <pre>new Promise(function(resolve,reject){}/*excutor*/);
+            </pre>
+            </div>
+
+            <p>
+                在实例化Promise时需要传入一个函数excutor作为参数，并且在Promise构造函数执行时同步执行。
+                废话不多说，先看一个简单的实例：
+            </p>
+            <div class="copy">
+                <pre>var p = new Promise(function(resolve,reject){
+             var timer = setTimeout(function(){
+                 console.log('执行操作1');
+             },1000);
+         });
+            </pre>
+            </div>
+            <p>
+                我们可以看到1s后在控制台输出相应的结果，这就说明在实例化过程中，作为参数的excutor函数也会执行。
+            </p>
+            <p>
+                从上面的实例中我们看到，excutor函数还有两个参数resolve和reject，其实这两个参数也是函数，
+                在excutor执行时被调用，下面我们具体来谈谈resolve和reject的用法。
+            </p>
+
+            <h4>三、resolve和reject的具体用法</h4>
+            <p>
+                1.先来说说resolve的用法
+                <br>
+                首先我们来看看Promise的几种状态：
+            </p>
+            <ul>
+                <li>1.pending: 初始状态，成功或失败状态。</li>
+                <li>2.fulfilled: 意味着操作成功完成。</li>
+                <li>3.rejected: 意味着操作失败。</li>
+            </ul>
+            <p>
+                当我们在excutor函数中调用resolve方法时，Promise的状态就变成fulfilled，即操作成功状态，
+                还记得上面Promise.prototype上面的then和catch方法吗？当Promise状态为fullfilled
+                状态时执行then方法里的操作，注意了，then方法里面有两个参数onfulfilled(Promise为fulfilled状态时执行)
+                和onrejected（Promise为rejected状态时执行），步骤如下：
+            </p>
+            <ul>
+                <li>1.实例化Promise（new Promise（function（resolve,reject）））</li>
+                <li>2.用Promise的实例调用then方法</li>
+            </ul>
+            <p>
+                具体来看下面的例子：
+            </p>
+            <div class="copy">
+                <pre>var p = new Promise(function (resolve, reject) {
+            var timer = setTimeout(function () {
+                console.log('执行操作1');
+                resolve('这是数据1');
+            }, 1000);
+        });
+        p.then(function (data) {
+            console.log(data);
+            console.log('这是成功操作');
+        });
+            </pre>
+            </div>
+            <p>
+                简单的理解就是调用resolve方法，Promise变为操作成功状态（fulfilled），
+                执行then方法里面onfulfilled里的操作。其实then里面的函数就是我们平时所说的回调函数，
+                只不过在这里只是把它分离出来而已。我们可以看到控制台上的输出结果如下所示：
+            </p>
+            <img src="../picture/a1-2.png">
+            <p>
+                2.reject的用法
+                <br>
+                看了上面的实例，我相信应该也很容易理解reject方法了，就是调用reject方法后，
+                Promise状态变为rejected，即操作失败状态，此时执行then方法里面onrejected操作，
+                上面我们提到了then方法有两个参数，一种是Promise状态为fulfilled时执行（onfullfilled），
+                一种是Promise状态为rejected时执行（onrejected），
+                其实就是类似于jquery里的hover方法里面的两个参数一样，来看看下面的例子：
+            </p>
+            <div class="copy">
+                <pre>var p = new Promise(function (resolve, reject) {
+          var flag = false;
+          if(flag){
+            resolve('这是数据2');
+          }else{
+            reject('这是数据2');
+          }
+        });
+        p.then(function(data){//状态为fulfilled时执行
+            console.log(data);
+            console.log('这是成功操作');
+        },function(reason){ //状态为rejected时执行
+            console.log(reason);
+            console.log('这是失败的操作');
+        });
+            </pre>
+            </div>
+            <p>
+                我们可以看到输出结果：
+            </p>
+            <img src="../picture/a1-3.png">
+
+            <h4>三、catch方法</h4>
+            <p>
+                我们注意到除了then方法外，Promise原型上还有另外一个叫catch的方法，
+                那么这个方法的作用是什么呢？其实跟then方法中的第二个参数一样，就是在Promise状态为rejected时执行，
+                then方法捕捉到Promise的状态为rejected，就执行catch方法里面的操作，
+                下面用catch方法改写上面reject用法里面的例子，如下所示：
+            </p>
+            <div class="copy">
+                <pre>var p = new Promise(function (resolve, reject) {
+            var flag = false;
+            if(flag){
+              resolve('这是数据2');
+            }else{
+              reject('这是数据2');
+            }
+          });
+          p.then(function(data){
+              console.log(data);
+              console.log('这是成功操作');
+          }).catch(function(reason){
+              console.log(reason);
+              console.log('这是失败的操作');
+          });
+            </pre>
+            </div>
+            <p>
+                执行结果和上面reject用法的例子一样。
+            </p>
+
+            <h4>四、为何用Promise</h4>
+            <p>
+                为什么会有promise,他的作用是什么？
+                <br>
+                promise主要是为了解决js中多个异步回调难以维护和控制的问题.
+                <br>
+                首先我们来看这样一个例子，取4个定时器，设置延迟时间都为1s，然后每隔1s依次在控制台输出‘我’‘爱’‘米’‘饭’的字样。代码如下：
+            </p>
+            <div class="copy">
+                <pre>setTimeout(function () {
+          console.log('我');
+          setTimeout(function () {
+              console.log('爱');
+              setTimeout(function () {
+                  console.log('米');
+                  setTimeout(function () {
+                      console.log('饭');
+                  }, 1000);
+              }, 1000);
+          }, 1000);
+      }, 1000);
+            </pre>
+            </div>
+            <p>
+                发现什么问题没有？是不是有点感觉回调函数的嵌套有点多，如果有更多的回调函数呢？
+                是不是使代码的可读性和可维护性都大大降低了呢（回调地狱？），这时如果我们使用Promise去实现这个效果，
+                虽然可能代码不会减少，甚至更多，但是却大大增强了其可读性和可维护性。具体看下面例子：
+            </p>
+            <div class="copy">
+               <pre>function getStr1() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('我');
+        }, 1000);
+    });
+}
+function getStr2() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('爱');
+        }, 1000);
+    });
+}
+function getStr3() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('米');
+        }, 1000);
+    });
+}
+function getStr4() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('饭');
+        }, 1000);
+    });
+}
+getStr1().then(function (data) {
+    console.log(data);
+    return getStr2();
+}).then(function (data) {
+    console.log(data);
+    return getStr3();
+}).then(function (data) {
+    console.log(data);
+    return getStr4();
+}).then(function (data) {
+    console.log(data);
+})
+            </pre>
+            </div>
+            <p>
+                执行效果跟上面一样，在这个例子中，将得到Promise实例的过程封装成一个函数（getStr1，getStr2,getStr3,getStr4）
+                并返回一个Promise实例，再用实例去调用相应的then方法，在每个then方法中通过return得到下一级的Promise实例，
+                比如在第一个Promise实例（getStr1（））then方法中，通过return返回下一个Promise对象（getStr2（）），
+                然后再去调用then方法执行里面的操作，再返回下一个Promise对象（这里是getStr3()），
+            </p>
+            <p>
+                这样一级一级下去实现了链式调用，虽然代码量增加了，但比起前面的层层嵌套，显然这种方式使得代码更易读更易维护。
+            </p>
+            <p>
+                本文对Promise的介绍就到这里,欢迎大家指正里面的错误和不准确的地方。
+            </p>
+        </div>
+    </main>
+    <nav>
+        <div class="nav_title">
+            导航栏
+        </div>
+        <div class="nav_link">
+            <ul>
+                <li><a href="http://www.baidu.com">百度</a></li>
+                <li><a href="http://www.google.com">谷歌</a></li>
+                <li><a href="https://developer.mozilla.org/en-US//">MDN</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="toTop"><a href="#Top">back<br>to<br>top</a></div>
+<footer>
+    <p class="connect" id="connect">please connect to :</p>
+    <br>
+    <p>邮箱：310599260@qq.com</p>
+    <p>电话：13961632333</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Promise问题初步详解",
+    "url": "./article/promiseSolve.html",
+    "summary": "Promise是解决回调地狱的好工具,比起直接使用回调函数promise的语法结构更加清晰，代码的可读性大大增加。但是想要在真是的项目中恰当的运用promise可不是随便写个Demo这个简单的，如果运用不当反而会增加代码的复杂性。",
+    "posted": "posted @ 2019-03-05 07:44 Tyx-muyu",
+    "views": "阅读（1） 评论（1）"
+  },
+  {
+    "title": "Javascript正则表达式",
+    "url": "./article/JavascriptRegularExpression.html",
+    "summary": "1. 正则表达式规则 1.1 普通字符字母、数字、汉字、下划线、以及后边章节中没有特殊定义的标点符号，都是\"普通字符\"。表达式中的普通字符，在匹配一个字符串的时候，匹配与之相同的一个字符。",
+    "posted": "posted @ 2019-03-05 07:44 Tyx-muyu",
+    "views": "阅读（1） 评论（1）"
+  },
+  {
+    "title": "Javascript学习总结Ajax和Http状态字",
+    "url": "",
+    "summary": "AJAX 是一种与服务器交换数据无需刷新网页的技术，最早由Google公司在谷歌地图里使用，并迅速风靡。 AJAX是不能跨域的，如需跨域，可以使用document.domain='a.com'；或者使用服务器代理，代理XMLHttpRequest文件",
+    "posted": "posted @ 2019-03-05 07:44 Tyx-muyu",
+    "views": "阅读（1） 评论（1）"
+  },
+  {
+    "title": "Javascript执行：Promise里的代码为什么比setTimeout先执行",
+    "url": "",
+    "summary": "1.在 ES5 之后，JavaScript 引入了 PromiseJavaScript 引擎本身也可以发起任务<br>2.宿主发起的任务称为宏观任务<br>3.把 JavaScript 引擎发起的任务称为微观任务",
+    "posted": "posted @ 2019-03-05 07:44 Tyx-muyu",
+    "views": "阅读（1） 评论（1）"
+  },
+  {
+    "title": "async函数的含义和用法",
+    "url": "",
+    "summary": "异步操作是 JavaScript 编程的麻烦事，麻烦到一直有人提出各种各样的方案，试图解决这个问题。从最早的回调函数，到 Promise 对象，再到 Generator 函数，每次都有所改进，但又让人觉得不彻底。它们都有额外的复杂性，都需要理解抽象的底层运行机制。异步编程的最高境界，就是根本不用关心它是不是异步。async 函数就是隧道尽头的亮光，很多人认为它是异步操作的终极解决方案。",
+    "posted": "posted @ 2019-03-05 07:44 Tyx-muyu",
+    "views": "阅读（1） 评论（1）"
+  }
+]

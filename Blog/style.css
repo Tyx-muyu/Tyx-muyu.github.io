@@ -1,0 +1,114 @@
+body {
+    background: antiquewhite;
+    padding: 5em 25%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    flex: 0 0 10em;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.header_link a {
+    float: left;
+    margin: 0 7em 0 0;
+    text-decoration: none;
+    color: palevioletred;
+}
+
+.body {
+    display: flex;
+    flex: 1;
+}
+
+main {
+    flex: 3;
+    padding: 0 1em;
+}
+
+div.article {
+    border-bottom: 1px dotted gray;
+}
+
+h3 {
+    margin: 0;
+    padding: 0;
+}
+
+h3 a {
+    text-decoration: none;
+    color: lightsalmon;
+}
+
+p {
+    font-size: 15px;
+}
+
+.information {
+    padding: 0;
+    margin: 0;
+    color: gray;
+    font-size: 12px;
+}
+
+nav {
+    flex: 1;
+    order: -1;
+}
+
+.nav_title {
+    border-bottom:1px solid rgba(92,104,117,0.2);
+}
+
+.nav_link {
+    padding: 1em 0;
+}
+
+.nav_link a {
+    text-decoration: none;
+    float: left;
+    margin: 0 7em 0 0;
+    padding: .5em 0;
+    color: lightpink;
+}
+
+.toTop {
+    position: sticky;
+    bottom: 1%;
+    width: 3em;
+    height: 5em;
+    line-height: 1.6em;
+    text-align: center;
+    background: rgba(109,109,178,0.3);
+    border-radius: 5px;
+}
+
+.toTop a {
+    text-decoration: none;
+    color: lightcyan;
+}
+
+footer {
+    text-align: center;
+    margin: 1em 0;
+    padding: 1em 0;
+    border-top:1px solid rgba(92,104,117,0.2);
+    flex: 0 0 10em;
+}
+
+p.connect {
+    color: ivory;
+    text-shadow: 2px 2px 2px skyblue;
+}
+
+footer p {
+    color: lightskyblue;
+    text-shadow: 5px 5px 5px ivory;
+}
